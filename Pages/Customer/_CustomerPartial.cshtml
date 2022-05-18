@@ -1,0 +1,86 @@
+﻿@using BindingRoute.Data
+@model Customer
+@{
+    var isshowdate = (@Model != null);
+    ViewData["Title"]= @ViewBag.Title;
+
+}
+
+
+
+
+    <h3> @ViewData["Title"]</h3>
+    <hr />
+
+
+<div class="row mb-3">
+    <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-10">
+        @if (!isshowdate)
+        {
+            <input  class="form-control" asp-for="Id" autofocus>
+        }
+        else
+        {
+            <input  class="form-control" asp-for="Id" readonly>
+        }
+         <span asp-validation-for="Id" class="text-danger"></span>
+
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label" asp-for="Name"></label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" asp-for="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label" asp-for="Email"></label>
+    <div class="col-sm-10">
+        <input  class="form-control " asp-for="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label" asp-for="Mobile"></label>
+    <div class="col-sm-10">
+        <input  class="form-control" asp-for="Mobile">
+        <span asp-validation-for="Mobile" class="text-danger"></span>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label">Level</label>
+    <div class="col-sm-10">
+        <select class="form-select" asp-for="Level" asp-items="Html.GetEnumSelectList<Level>()">
+            @*<option value="0" selected>Level1</option>
+                <option value="1">Level2</option>
+                <option value="2">Level3</option>*@
+        </select>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-sm-10 offset-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="IsActive">
+            <label class="form-check-label">
+                Is Active
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label" asp-for="CreatedOn"></label>
+    <div class="col-sm-10">
+        
+        @if (isshowdate)
+        {
+            <input class="form-control" asp-for="CreatedOn" readonly >
+        }
+        else
+        {
+            <label class="form-label">@DateTime.Now.ToString()</label>
+        }
+    </div>
+</div>

@@ -1,0 +1,169 @@
+﻿@page ""
+@model BindingRoute.Pages.Category.IndexModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+
+<h4> Products Categories</h4>
+<hr />
+
+@if (Model.ToastData.ShowTost)
+{
+    <div id="mymessage" class="toast align-items-center text-white bg-primary border-0" role="alert"  data-delay="10000" data-autohide="true" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                @Model.ToastData.Message
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" onclick="AddCategory();">
+    Add new Category
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" id="categoryForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row align-items-center pb-5">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-3">
+                            <label class="form-label" asp-for="Category.Id">Id</label>
+                            <input class="form-control" asp-for="Category.Id">
+                            <span asp-validation-for="Category.Id" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label" asp-for="Category.category">Category</label>
+                            <input class="form-control" asp-for="Category.category">
+                            <span asp-validation-for="Category.category" class="text-danger"></span>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label">&nbsp;</label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSave" type="submit" value="Save" class="btn btn-primary" asp-page-handler="Add">Create</button>
+                    <button id="btnUpdate" type="submit" value="Update" class="btn btn-success" asp-page-handler="Update">Update</button>
+                    <button type="reset" value="Reset" class="btn btn-light">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-10">
+        <table class="table table-bordered table-striped table-light table-hover">
+            <thead>
+                <tr>
+                    <th> @Html.DisplayNameFor(model => model.Categories[0].Id)</th>
+                    <th> @Html.DisplayNameFor(model => model.Categories[0].category)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Categories != null)
+                    foreach (var item in Model.Categories)
+                    {
+                        <tr>
+                            <td class="text-center"> @item.Id </td>
+                            <td class="text-center"> @item.category </td>
+                            <td class="text-center">
+                                <a asp-page="./Index" asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                | <a onclick="UpdateCategory(@item.Id,'@item.category');" href="#">Edit</a>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div>
+    <a asp-page="/index"> Go Back</a>
+</div>
+
+
+
+@section Scripts{
+
+
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+            keyboard: true,
+
+        })
+
+        function AddCategory() {
+            myModal.show();
+
+            document.getElementById('btnUpdate').hidden = true;
+            document.getElementById('btnSave').hidden = false;
+            document.getElementById('Category_Id').value = null;
+            document.getElementById('Category_category').value = '';
+        }
+
+
+        function UpdateCategory(id, category) {
+            myModal.show();
+
+            document.getElementById('btnUpdate').hidden = false;
+            document.getElementById('btnSave').hidden = true;
+
+            document.getElementById('Category_Id').value = id;
+            document.getElementById('Category_category').value = category;
+
+
+        }
+
+    </script>
+
+
+    @if (Model.ToastData.ShowModel)
+    {
+        <script>
+            myModal.show();
+
+        </script>
+
+        @if (Model.ToastData.isAdd)
+        {
+            <script>document.getElementById('btnUpdate').hidden = true;</script>
+
+        }
+        else
+        {
+            <script>document.getElementById('btnSave').hidden = true;</script>
+
+        }
+
+    }
+                else
+                {
+                    <script>
+
+                        var myToastEl = document.getElementById('mymessage')
+                        var myToast = bootstrap.Toast.getOrCreateInstance(myToastEl) // Returns a Bootstrap toast instance
+                        myToast.show();
+
+                    </script>
+
+                }
+
+}

@@ -1,0 +1,42 @@
+﻿@page
+@model BindingRoute.Pages.Customer.IndexModel
+@{
+    ViewData["Title"] = "Customer Home";
+}
+
+<h3> Customers List</h3>
+<hr />
+<p class="text-right"> <a asp-page="./Add" class="btn btn-primary">Add new</a></p>
+<div class="row">
+    <div class="col-10">
+
+        <table class="table table-bordered table-responsive table-primary table-striped">
+            <thead>
+                <tr>
+                    <th> @Html.DisplayNameFor(model => model.list[0].Id)</th>
+                    <th> @Html.DisplayNameFor(model => model.list[0].Name)</th>
+                    <th> Email</th>
+                    <th>Mobile</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Data.Customer item in Model.list)
+            {
+                <tr>
+                    <td class="text-center"> @item.Id</td>
+                    <td> @item.Name</td>
+                    <td> @item.Email</td>
+                    <td> @Html.DisplayFor(modelItem => item.Mobile)</td>
+                    <td> @item.CreatedOn.ToString("dd-MMM-yyyy")</td>
+                    <td>
+                        <a asp-page="/Customer/EditAdd" asp-route-Id="@item.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+</div>
